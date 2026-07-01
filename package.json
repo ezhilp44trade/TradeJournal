@@ -1,5 +1,17 @@
 {
-  "database": {
-    "rules": "database.rules.json"
+  "name": "ledger-trading-journal",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Ledger — trading journal (Calendar, Performance, Screenshots) with Firebase email-allowlist access control.",
+  "scripts": {
+    "deploy:rules": "firebase deploy --only database",
+    "allow": "node scripts/allow.mjs add",
+    "deny": "node scripts/allow.mjs remove",
+    "list-access": "node scripts/allow.mjs list"
+  },
+  "devDependencies": {
+    "firebase-admin": "^12.7.0",
+    "firebase-tools": "^13.23.0"
   }
 }
