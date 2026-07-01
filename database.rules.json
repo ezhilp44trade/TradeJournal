@@ -1,17 +1,5 @@
 {
-  "rules": {
-    "allowlist": {
-      ".read": false,
-      ".write": false,
-      "$emailKey": {
-        ".read": "auth != null && auth.token.email != null && $emailKey === auth.token.email.toLowerCase().replace('.', ',')"
-      }
-    },
-    "users": {
-      "$uid": {
-        ".read": "auth != null && auth.uid === $uid && root.child('allowlist').child(auth.token.email.toLowerCase().replace('.', ',')).val() === true",
-        ".write": "auth != null && auth.uid === $uid && root.child('allowlist').child(auth.token.email.toLowerCase().replace('.', ',')).val() === true"
-      }
-    }
+  "projects": {
+    "default": "mytradejournal-27573"
   }
 }
