@@ -152,7 +152,7 @@
         frame.src = 'app.html';
         frame.style.display = 'block';
         gate.style.display = 'none';
-        frame.onload = () => frame.contentWindow.postMessage({ source: 'host', type: 'user', email: user.email }, location.origin);
+        frame.onload = () => frame.contentWindow.postMessage({ source: 'host', type: 'user', email: user.email, name: user.displayName || '' }, location.origin);
       });
 
       // Bridge: sync journal entries between the app iframe and Realtime Database (per user).
