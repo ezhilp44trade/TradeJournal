@@ -148,6 +148,7 @@
         const ok = await isAllowed(user.email);
         if (!ok) { document.getElementById('denied-email').textContent = user.email; show('s-denied'); return; }
         uid = user.uid;
+        try { await set(ref(db, 'profiles/' + uid), { email: user.email, name: user.displayName || user.email, updatedAt: Date.now() }); } catch (e) { console.warn('profile write failed:', e); }
         frame.src = 'app.html';
         frame.style.display = 'block';
         gate.style.display = 'none';
@@ -188,6 +189,22 @@
           try {
             await set(ref(db, 'users/' + uid + '/slots'), m.slots || {});
           } catch (e) { console.warn('slots save failed:', e); }
+        } else if (m.type === 'friendsRequest') {
+          try {
+            const snap = await get(ref(db, 'profiles'));
+            const all = snap.exists() ? snap.val() : {};
+            const friends = Object.keys(all)
+              .filter(k => k !== uid)
+              .map(k => ({ uid: k, email: all[k].email || '', name: all[k].name || all[k].email || '' }))
+              .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+            ev.source.postMessage({ source: 'host', type: 'friendsData', friends }, location.origin);
+          } catch (e) { console.warn('friends load failed:', e); }
+        } else if (m.type === 'friendTradesRequest') {
+          try {
+            const snap = await get(ref(db, 'users/' + m.uid + '/trades'));
+            const data = snap.exists() ? snap.val() : {};
+            ev.source.postMessage({ source: 'host', type: 'friendTradesData', uid: m.uid, trades: data.trades || [], deleted: data.deleted || [] }, location.origin);
+          } catch (e) { console.warn('friend trades load failed:', e); }
         } else if (m.type === 'signOut') {
           signOut(auth);
         }
