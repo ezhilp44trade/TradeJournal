@@ -1,21 +1,5 @@
-# Dependencies
-node_modules/
-
-# Firebase
-.firebase/
-firebase-debug.log
-firestore-debug.log
-
-# Vercel
-.vercel/
-
-# Service account key — NEVER commit this
-serviceAccount.json
-serviceAccount*.json
-*-firebase-adminsdk-*.json
-
-# Env / misc
-.env
-.env.*
-*.log
-.DS_Store
+{
+  "projects": {
+    "default": "mytradejournal-27573"
+  }
+}
