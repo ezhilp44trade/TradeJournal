@@ -205,6 +205,18 @@
             const data = snap.exists() ? snap.val() : {};
             ev.source.postMessage({ source: 'host', type: 'friendTradesData', uid: m.uid, trades: data.trades || [], deleted: data.deleted || [] }, location.origin);
           } catch (e) { console.warn('friend trades load failed:', e); }
+        } else if (m.type === 'friendJournalsRequest') {
+          try {
+            const snap = await get(ref(db, 'users/' + m.uid + '/journals'));
+            const journals = snap.exists() ? snap.val() : {};
+            ev.source.postMessage({ source: 'host', type: 'friendJournalsData', uid: m.uid, journals }, location.origin);
+          } catch (e) { console.warn('friend journals load failed:', e); }
+        } else if (m.type === 'friendSlotsRequest') {
+          try {
+            const snap = await get(ref(db, 'users/' + m.uid + '/slots'));
+            const slots = snap.exists() ? snap.val() : {};
+            ev.source.postMessage({ source: 'host', type: 'friendSlotsData', uid: m.uid, slots }, location.origin);
+          } catch (e) { console.warn('friend slots load failed:', e); }
         } else if (m.type === 'signOut') {
           signOut(auth);
         }
