@@ -207,6 +207,13 @@
       .then(() => { saving = false; if (saveDirty) { saveDirty = false; save(); } });
   }
 
+  // Public read API for host pages (e.g. PDF export) that need every
+  // stored image, including slots not currently mounted in the DOM.
+  window.imageSlotStore = {
+    all() { return Object.assign({}, slots); },
+    ready() { return Promise.resolve(load()).then(() => Object.assign({}, slots)); },
+  };
+
   const S_MAX = 5;
   const clampS = (s) => Math.max(1, Math.min(S_MAX, s));
 
